@@ -225,3 +225,5 @@ void ispisiSortirano(const ALAT* polje, int po) {
 			(polje + i)->cijena);
 	}
 }
+
+//nastavak ---->

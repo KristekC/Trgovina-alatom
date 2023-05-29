@@ -4,6 +4,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "functions.h"
+#include "dataType.h"
 
 //6 (više datoteka)
 //8

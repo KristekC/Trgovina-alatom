@@ -226,4 +226,113 @@ void ispisiSortirano(const ALAT* polje, int po) {
 	}
 }
 
-//nastavak ---->
+void urediAlat(ALAT* polje, const char* const dat) {
+
+	if (brojAlata == 0) {
+		printf("Polje alata je prazno\n");
+		return;
+	}
+
+	FILE* fp = fopen(dat, "rb+");
+
+	if (fp == NULL) {
+		perror("Azuriranje alata");
+		exit(EXIT_FAILURE);
+	}
+
+	int trazeniId;
+
+	printf("Unesite ID alata koju zelite urediti: ");
+
+	do {
+		scanf("%d", &trazeniId);
+
+		if (trazeniId < 1 || trazeniId > brojAlata) {
+			printf("Alat s unesenim ID-em ne postoji. Unesite ID koji postoji: ");
+		}
+	} while (trazeniId < 1 || trazeniId > brojAlata);
+
+	ALAT temp = { 0 };
+
+	temp.id = trazeniId;
+
+	getchar();
+	printf("Unesite naziv alata (trenutno: %s): ", (polje + trazeniId - 1)->naziv);
+	scanf("%24[^\n]", temp.naziv);
+
+	getchar();
+	printf("Unesite kategoriju alata (trenutno: %s): ", (polje + trazeniId - 1)->kategorija);
+	scanf("%24[^\n]", temp.kategorija);
+
+	getchar();
+	printf("Unesite kolicinu alata (trenutno: %d): ", (polje + trazeniId - 1)->kolicina);
+	scanf("%d", &temp.kolicina);
+
+	getchar();
+	printf("Unesite cijenu alata (trenutno: %d kn): ", (polje + trazeniId - 1)->cijena);
+	scanf("%d", &temp.cijena);
+
+	fseek(fp, sizeof(int), SEEK_SET);
+	fseek(fp, sizeof(ALAT) * (trazeniId - 1), SEEK_CUR);
+	fwrite(&temp, sizeof(ALAT), 1, fp);
+
+	printf("Alat uspjesno ureden\n");
+
+	fclose(fp);
+}
+
+void brisanjeAlata(ALAT* const polje, const char* const dat) {
+
+	if (brojAlata == 0) {
+		printf("Polje alata je prazno\n");
+		return;
+	}
+
+	FILE* fp = fopen(dat, "rb+");
+
+	if (fp == NULL) {
+		perror("Brisanje alata");
+		exit(EXIT_FAILURE);
+	}
+
+	fseek(fp, sizeof(int), SEEK_CUR);
+
+	int i, trazeniId;
+
+	printf("Unesite ID alata kojeg zelite obrisati: ");
+
+	do {
+		scanf("%d", &trazeniId);
+		if (trazeniId < 1 || trazeniId > brojAlata) {
+			printf("Alat s unesenim ID-em ne postoji. Unesite ID koji postoji: ");
+		}
+	} while (trazeniId < 1 || trazeniId > brojAlata);
+
+	ALAT* pomocnoPolje = (ALAT*)calloc(brojAlata - 1, sizeof(ALAT));
+
+	int counter = 0;
+
+	for (i = 0; i < brojAlata; i++) {
+
+		if (trazeniId != (polje + i)->id) {
+			*(pomocnoPolje + counter) = *(polje + i);
+
+			if ((pomocnoPolje + counter)->id > trazeniId) {
+				(pomocnoPolje + counter)->id -= 1;
+			}
+
+			fwrite((pomocnoPolje + counter), sizeof(ALAT), 1, fp);
+			counter++;
+		}
+	}
+
+	free(pomocnoPolje);
+	pomocnoPolje = NULL;
+
+	rewind(fp);
+
+	fwrite(&counter, sizeof(int), 1, fp);
+	fclose(fp);
+
+	printf("Alat je uspjesno obrisan\n");
+}

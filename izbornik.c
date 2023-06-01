@@ -60,7 +60,7 @@ int main() {
 		}
 
 		break;
-
+//13
 	case 3:
 		if (poljeAlata != NULL) {
 			free(poljeAlata);

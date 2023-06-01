@@ -57,7 +57,7 @@ void dodajAlat(const char* const ime) {
 	printf("Unesite cijenu: ");
 	scanf("%d", &temp.cijena);
 
-	
+
 	fseek(fp, sizeof(ALAT) * brojAlata, SEEK_CUR);
 	fwrite(&temp, sizeof(ALAT), 1, fp);
 	printf("Novi alat dodan.\n\n");
@@ -118,10 +118,10 @@ void ispisiSve(const ALAT* polje) {
 			(polje + i)->cijena);
 	}
 }
-
+//21
 void* pretraziAlate(ALAT* const polje) {
 
-	if (brojAlataa == 0) {
+	if (brojAlata == 0) {
 		printf("Polje alata je prazno\n");
 		return;
 	}
@@ -134,7 +134,7 @@ void* pretraziAlate(ALAT* const polje) {
 	printf("Unesite ID alata koji trazite: \n");
 	scanf("%d", &trazeniId);
 
-	
+
 	for (i = 0; i < brojAlata; i++) {
 
 		if (trazeniId == (polje + i)->id) {
@@ -173,6 +173,7 @@ void* sortirajPoKolicini(const ALAT* polje) {
 	return polje;
 }
 
+//20
 void* sortirajPoCijeni(const ALAT* polje) {
 
 	int min = -1;
@@ -193,6 +194,7 @@ void* sortirajPoCijeni(const ALAT* polje) {
 	return polje;
 }
 
+//11
 void ispisiSortirano(const ALAT* polje, int po) {
 
 	if (brojAlata == 0) {
@@ -325,7 +327,9 @@ void brisanjeAlata(ALAT* const polje, const char* const dat) {
 			counter++;
 		}
 	}
-
+	//14
+	//16
+	//17
 	free(pomocnoPolje);
 	pomocnoPolje = NULL;
 

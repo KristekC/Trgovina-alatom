@@ -2,6 +2,8 @@
 #define FUNCTIONS_H
 #include "dataType.h"
 
+//6
+//9
 //10
 
 int	 menu(const char* const);
@@ -15,3 +17,5 @@ void brisanjeAlata(ALAT* const, const char* const);
 void* pretraziAlate(ALAT* const);
 
 #endif
+
+
